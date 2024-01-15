@@ -21,7 +21,7 @@ export const Search = ({theme, setInputData, searchHandler}) => {
           onKeyDown={handleKeyDown}
         />
         <button
-          onClick={() => searchHandler}
+          onClick={searchHandler}
           className="h-[80%] py-3 px-7 text-white font-bold rounded-xl bg-blue-600 absolute right-3 flex items-center justify-center"
         >
           Search
