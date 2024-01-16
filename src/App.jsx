@@ -7,10 +7,8 @@ import { fetchData } from "./api";
 export default function App() {
   const [theme, setTheme] = useState("light");
   const [inputData, setInputData] = useState("actuallyakshat");
-
   const [notFound, setNotFound] = useState(false);
   const [data, setData] = useState([]);
-
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
   const [username, setUsername] = useState("");
@@ -30,14 +28,14 @@ export default function App() {
     {
       currentHour > 15 ? setTheme("dark") : setTheme("light");
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    console.log(data);
     renderData(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchHandler]);
+  }, [data]);
 
   function renderData(data) {
     setAvatar(data.avatar_url);
@@ -50,7 +48,18 @@ export default function App() {
     setBio(data.bio);
     setUrl(data.html_url);
     setTwitter(data.twitter_username);
-    setInfo({ name, avatar, username, repos, followers, following, location, bio, url, twitter});
+    setInfo({
+      name,
+      avatar,
+      username,
+      repos,
+      followers,
+      following,
+      location,
+      bio,
+      url,
+      twitter,
+    });
   }
 
   function themeHandler() {
@@ -66,6 +75,7 @@ export default function App() {
       } else {
         setNotFound(false);
         setData(data);
+        renderData(data);
       }
     } catch (error) {
       console.error(error.message);
@@ -80,7 +90,7 @@ export default function App() {
           : "bg-frostWhite text-softBlue"
       } h-full min-h-screen w-screen flex justify-center py-10`}
     >
-      <div className="w-[720px] h-full">
+      <div className="w-[720px] h-full m-8">
         <Header theme={theme} themeHandler={themeHandler} />
         <Search
           theme={theme}
