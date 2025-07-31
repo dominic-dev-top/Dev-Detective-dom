@@ -1,0 +1,33 @@
+name: Auto Commit (Daily Status Update)
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # 09:00 JST
+    - cron: '0 3 * * *'   # 12:00 JST
+    - cron: '0 6 * * *'   # 15:00 JST
+    - cron: '0 9 * * *'   # 18:00 JST
+    - cron: '0 12 * * *'  # 21:00 JST
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "dominic-dev-top"
+          git config --global user.email "dragonwarriordev@gmail.com"
+
+      - name: Update daily status file
+        run: |
+          echo "Last update: $(date -u)" > status/last-updated.txt
+
+      - name: Commit changes
+        run: |
+          git add status/last-updated.txt
+          git commit -m "chore: daily status update [auto-commit]"
+          git push
